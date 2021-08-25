@@ -5,7 +5,7 @@ The idea is that the user can select or just drop an excel file in an app and th
 The file is then deleted to alleviate storage.
 
 Modules used:
-multer (for handling the file upload)
-express (for the server and routes)
-fs (for deleting the files)
-xlsx (for parsing excel data)
+- multer (for handling the file upload)
+- express (for the server and routes)
+- fs (for deleting the files)
+- xlsx (for parsing excel data)
