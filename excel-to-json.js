@@ -18,7 +18,7 @@ console.log(fileNamesArray);
 const update = () => {
     
     
-    if(fileNamesArray.length !== 0 ) {
+    if(fileNamesArray.length != 0 ) {
     
         //Here we call one of the files for testing
         const wb = xlsx.readFile(`./uploads/${fileNamesArray[0]}`);
@@ -40,27 +40,36 @@ const update = () => {
             Object.assign(sale, {date: saleDate});
         };
     
-        console.log(`${saleDate}`);
+        console.log(sales[1]);
+        const path = `./uploads/${fileNamesArray[0]}`
     
-        // const path = `./uploads/${fileNamesArray[0]}`
-    
-        // try {
-        //     fs.unlinkSync(path)
-        //     //file removed
-        // } catch(err) {
-        //     console.error(err)
-        // }
+  
+            fs.unlinkSync(path)
         
     
     } else {
         console.log('All your files have been processed');
     }
     
-    
-    
-
 };    
 
+
+const deleteFile = () => {
+    if(fileNamesArray.length !== 0 ){
+    const path = `./uploads/${fileNamesArray[0]}`
+    
+        try {
+            fs.unlinkSync(path)
+            //file removed
+        } catch(err) {
+            console.error(err)
+        }
+} else { 
+    console.log("nothing to clear")
+}
+}
+
  module.exports = {
-    update
+    update,
+    deleteFile
 }

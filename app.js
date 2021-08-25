@@ -1,6 +1,6 @@
 const express = require('express');
 const {upload} = require('./file-upload.js');
-const {update} = require('./excel-to-json.js');
+const {update, deleteFile} = require('./excel-to-json.js');
 
 const app = express();
 
@@ -11,6 +11,7 @@ app.use(express.static('public'));
 app.post('/upload', upload.single('avatar'), (req, res) => {
     res.json({ status: 'OK' });
     return update();
+  
 })
 
 //running server
