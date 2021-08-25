@@ -1,14 +1,11 @@
-//directory-tree will help us get all the file names in the directory
 const dirTree = require("directory-tree");
 
 const xlsx = require('xlsx');
 
+const fs = require('fs')
 
 
-// -------------- LOGIC FOR THE INTELLIGENT DIRECTORY FILENAMES RETRIEVAL ------
-
-//Here we are saving all excel file names into an array
-const tree = dirTree('./');
+const tree = dirTree('./uploads');
 const files = tree.children;
 const fileNamesArray = [];
 for(const file of files) {
@@ -18,49 +15,52 @@ for(const file of files) {
 };
 console.log(fileNamesArray);
 
+const update = () => {
+    
+    
+    if(fileNamesArray.length !== 0 ) {
+    
+        //Here we call one of the files for testing
+        const wb = xlsx.readFile(`./uploads/${fileNamesArray[0]}`);
+        
+        
+        //Here we call the first sheet (we ain't sure about first sheet's name)
+        const firstSheetName = wb.SheetNames[0];
+        const ws = wb.Sheets[firstSheetName];
+    
+        
+        //this xlsx.utils.sheet_to_json will ransform each row into a JSON object
+        const sales = xlsx.utils.sheet_to_json(ws);
+        
+        //Here we hardcode a dummy date, we will assign this later through the front
+        const saleDate = "octubre";
+        
+        //We add the date to each row
+        for(const sale of sales) {
+            Object.assign(sale, {date: saleDate});
+        };
+    
+        console.log(`${saleDate}`);
+    
+        // const path = `./uploads/${fileNamesArray[0]}`
+    
+        // try {
+        //     fs.unlinkSync(path)
+        //     //file removed
+        // } catch(err) {
+        //     console.error(err)
+        // }
+        
+    
+    } else {
+        console.log('All your files have been processed');
+    }
+    
+    
+    
 
-// -------------- LOGIC FOR THE EXCEL PARSING ---------------------
+};    
 
-//Here we call one of the files for testing
-//const wb = xlsx.readFile(fileNamesArray[0]);
-
-const wb = xlsx.readFile("./uploads/ventas.xls");
-
-//if we wanted only one precise file:
-//const wb = xlsx.readFile("ventas.xls");
-
-
-//Here we call the first sheet (we ain't sure about first sheet's name)
-const firstSheetName = wb.SheetNames[0];
-const ws = wb.Sheets[firstSheetName];
-
-//Alternative way of calling the sheet by name instead
-//const ws = wb.Sheets["ventas"];
-
-//this xlsx.utils.sheet_to_json will ransform each row into a JSON object
-const sales = xlsx.utils.sheet_to_json(ws);
-
-//Here we hardcode a dummy date, we will assign this later through the front
-const saleDate = "octubre";
-
-//We add the date to each row
-for(const sale of sales) {
-    Object.assign(sale, {date: saleDate});
-};
-
-//testing
-//console.log(sales[1]);
-
-
-//example of manipulating data from our new JSON objects
-let total = 0;
-for(const sale of sales) {
-    total += sale.total;
-};
-
-
-
-module.exports = {
-    total,
-    saleDate
+ module.exports = {
+    update
 }

@@ -1,6 +1,6 @@
 const express = require('express');
 const {upload} = require('./file-upload.js');
-const {total, saleDate} = require('./excel-to-json.js');
+const {update} = require('./excel-to-json.js');
 
 const app = express();
 
@@ -9,10 +9,9 @@ app.use(express.static('public'));
 
 //route for POSTING the uploaded file to the server
 app.post('/upload', upload.single('avatar'), (req, res) => {
-    return res.json({ status: 'OK' });
+    res.json({ status: 'OK' });
+    return update();
 })
-
-console.log(`Total sale for ${saleDate} is ${total} USD`);
 
 //running server
 app.listen(3000, () => console.log('App is listening...'));
