@@ -1,4 +1,3 @@
-const express = require('express');
 const multer = require('multer');
 
 //Below we create a storage variable which will allow us to preserve name and extension
@@ -19,12 +18,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 
-const app = express();
-app.use(express.static('public'));
+module.exports = {
+    upload
+};
 
-
-app.post('/upload', upload.single('avatar'), (req, res) => {
-    return res.json({ status: 'OK' });
-})
-
-app.listen(3000, () => console.log('App is listening...'));
